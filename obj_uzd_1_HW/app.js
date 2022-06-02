@@ -164,7 +164,7 @@ function rand(min, max) {
 class Grybas {
   constructor() {
     this.valgomas = Math.random() < 0.9;
-    this.sukirmijes = Math.random() < 0.9;
+    this.sukirmijes = Math.random() < 0.1;
     this.svoris = rand(5, 45);
   }
 }
@@ -178,13 +178,28 @@ class Krepsys {
     this.prikrauta = 0;
   }
   deti(grybas) {
-    if (grybas) {
-      do {
-        this.prikrauta++;
-      } while (thsis.prikrauta < this.dydis)
-    }
+    this.prikrauta++
+    return grybas;
   }
 }
 const krep = new Krepsys();
-krep.deti(gryb.valgomas && gryb.sukirmijes)
-console.log(krep.prikrauta)
+
+const grybuKrepselis = [];
+
+const gerasGrybas = (grybas) => {
+  if (grybas.valgomas && !grybas.sukirmijes) {
+    return grybas;
+  }
+  grybuKrepselis.push(gerasGrybas(new Grybas))
+}
+
+do {
+  krep.deti(gerasGrybas)
+  grybuKrepselis.push(gerasGrybas(new Grybas));
+} while (krep.prikrauta < 500);
+
+console.log(krep.prikrauta);
+
+console.log('Grybu krepselis:', grybuKrepselis);
+
+console.log(krep.deti(gerasGrybas(new Grybas)));
