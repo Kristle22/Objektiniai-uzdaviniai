@@ -161,45 +161,87 @@ function rand(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+// class Grybas {
+//   constructor() {
+//     this.valgomas = Math.random() < 0.9;
+//     this.sukirmijes = Math.random() < 0.1;
+//     this.svoris = rand(5, 45);
+//   }
+// }
+
+// const gryb = new Grybas();
+// console.log(gryb.valgomas, gryb.sukirmijes, gryb.svoris);
+
+// class Krepsys {
+//   constructor() {
+//     this.dydis = 500;
+//     this.prikrauta = 0;
+//   }
+//   deti(grybas) {
+//     this.prikrauta++
+//     return grybas;
+//   }
+// }
+// const krep = new Krepsys();
+
+// const grybuKrepselis = [];
+
+// const gerasGrybas = (grybas) => {
+//   if (grybas.valgomas && !grybas.sukirmijes) {
+//     return grybas;
+//   }
+//   grybuKrepselis.push(gerasGrybas(new Grybas))
+// }
+
+// do {
+//   krep.deti(gerasGrybas)
+//   grybuKrepselis.push(gerasGrybas(new Grybas));
+// } while (krep.prikrauta < 500);
+
+// console.log(krep.prikrauta);
+
+// console.log('Grybu krepselis:', grybuKrepselis);
+
+// console.log(krep.deti(gerasGrybas(new Grybas)));
+
+
+// Klaseje
+
 class Grybas {
+
   constructor() {
-    this.valgomas = Math.random() < 0.9;
-    this.sukirmijes = Math.random() < 0.1;
+    this.valgomas = !this.rand(0, 1);
+    this.sukirmijes = !this.rand(0, 1)
     this.svoris = rand(5, 45);
   }
+  rand(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
 }
 
-const gryb = new Grybas();
-console.log(gryb.valgomas, gryb.sukirmijes, gryb.svoris);
-
 class Krepsys {
+
   constructor() {
     this.dydis = 500;
     this.prikrauta = 0;
+
   }
   deti(grybas) {
-    this.prikrauta++
-    return grybas;
+    if (grybas.valgomas && !grybas.sukirmijes) {
+      this.prikrauta += grybas.svoris
+    }
+    return this.prikrauta < this.dydis;
   }
-}
-const krep = new Krepsys();
 
-const grybuKrepselis = [];
-
-const gerasGrybas = (grybas) => {
-  if (grybas.valgomas && !grybas.sukirmijes) {
-    return grybas;
-  }
-  grybuKrepselis.push(gerasGrybas(new Grybas))
 }
 
-do {
-  krep.deti(gerasGrybas)
-  grybuKrepselis.push(gerasGrybas(new Grybas));
-} while (krep.prikrauta < 500);
+const Kr = new Krepsys();
 
-console.log(krep.prikrauta);
-
-console.log('Grybu krepselis:', grybuKrepselis);
-
-console.log(krep.deti(gerasGrybas(new Grybas)));
+let count = 0; // tik vizualizacijai
+while (Kr.deti(new Grybas())) {
+  console.log('grybauju...', ++count); // tik vizualizacijai
+}
+console.log(Kr);
